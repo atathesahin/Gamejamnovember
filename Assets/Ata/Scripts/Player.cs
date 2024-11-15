@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public int health = 100;
     void Start()
     {
         
@@ -14,5 +14,10 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void TakeDamage(int damage)
+    {
+        health -= damage;
     }
 }
