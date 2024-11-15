@@ -12,14 +12,15 @@ public class Enemy : MonoBehaviour
     public float detectionRadius = 15f;
     public float attackRadius = 2f;
     public float randomWalkRadius = 10f;
+    public float randomWalkInterval = 5f;
     [Header("Attack Settings")]
     public int attackDamage = 10;
     public float attackInterval = 1.5f;
     [Header("Health Settings")]
     public int health = 100;
+    
     private bool isAttacking = false;
     private float randomWalkTimer = 0f;
-    public float randomWalkInterval = 5f;
     private float attackTimer = 0f;
 
     void Start()
