@@ -17,6 +17,6 @@ public class StoryUI : MonoBehaviour
   
         yield return new WaitForSeconds(delayBeforeTransition);
    
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Test");
     }
 }
