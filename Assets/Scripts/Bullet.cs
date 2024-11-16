@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     public float hiz = 10f;
     public float damage = 25;
+    public float lifeTime = 2f;
 
     private Rigidbody rb;
 
@@ -18,6 +19,20 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //ENEMY TAG
+        if (other.CompareTag("Enemy"))
+        {
+            // Düşmana hasar ver
+            //other.GetComponent<Health>().TakeDamage(damage);
+        }
+        else
+        {
+            StartCoroutine(lifeTimeEnum());
+        }
+    }
+
+    IEnumerator lifeTimeEnum()
+    {
+        yield return new WaitForSeconds(lifeTime);
+        Destroy(this.gameObject);
     }
 }

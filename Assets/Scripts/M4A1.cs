@@ -4,16 +4,16 @@ using UnityEditor.UI;
 using UnityEngine;
 using TMPro;
 
-public class ToyPistol : MonoBehaviour
+public class M4A1 : MonoBehaviour
 {
     [Header("Gun Settings")]
-    public float fireRate = 2f; // AtÄ±ÅŸ hÄ±zÄ± (saniye cinsinden)
-    public int maxAmmo = 12; // Maksimum mermi sayÄ±sÄ±
+    public float fireRate = 0.1f; // Atýþ hýzý (saniye cinsinden)
+    public int maxAmmo = 30; // Maksimum mermi sayýsý
 
     [Header("References")]
-    public Transform firePoint; // Merminin Ã§Ä±kÄ±ÅŸ noktasÄ±
-    public GameObject bulletPrefab; // KullanÄ±lacak mermi prefab'Ä±
-    public ParticleSystem muzzleFlash; // Namlu patlamasÄ± efekti
+    public Transform firePoint; // Merminin çýkýþ noktasý
+    public GameObject bulletPrefab; // Kullanýlacak mermi prefab'ý
+    public ParticleSystem muzzleFlash; // Namlu patlamasý efekti
     public AudioSource gunShotSound; // Silah sesi
     public AudioSource outofammoSound;
 
@@ -34,13 +34,13 @@ public class ToyPistol : MonoBehaviour
 
     void Update()
     {
-        // Sol tÄ±k (fare) ile ateÅŸ et
+        // Sol týk (fare) ile ateþ et
         if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
         {
             Fire();
         }
 
-        // R tuÅŸu ile yeniden doldur
+        // R tuþu ile yeniden doldur
         if (Input.GetKeyDown(KeyCode.R))
         {
             Reload();
@@ -71,7 +71,7 @@ public class ToyPistol : MonoBehaviour
 
     void Fire()
     {
-        // Merminiz yoksa ateÅŸ etmeyin
+        // Merminiz yoksa ateþ etmeyin
         if (currentAmmo <= 0)
         {
             Debug.Log("No ammo!");
@@ -79,11 +79,11 @@ public class ToyPistol : MonoBehaviour
             return;
         }
 
-        // AtÄ±ÅŸ iÅŸlemi
-        nextFireTime = Time.time + fireRate; // AtÄ±ÅŸ hÄ±zÄ±na gÃ¶re bir sonraki atÄ±ÅŸ zamanÄ±
+        // Atýþ iþlemi
+        nextFireTime = Time.time + fireRate; // Atýþ hýzýna göre bir sonraki atýþ zamaný
         currentAmmo--; // Mermiyi azalt
 
-        // GÃ¶rsel efekt
+        // Görsel efekt
         if (muzzleFlash != null)
         {
             muzzleFlash.Play();
@@ -95,7 +95,7 @@ public class ToyPistol : MonoBehaviour
             gunShotSound.Play();
         }
 
-        // Mermiyi oluÅŸtur
+        // Mermiyi oluþtur
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
     }
