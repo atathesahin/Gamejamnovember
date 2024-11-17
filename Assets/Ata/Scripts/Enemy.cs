@@ -109,9 +109,13 @@ public class Enemy : MonoBehaviour
         }
     }
     
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damageAmount)
     {
-        health -= damage;
+        health -= damageAmount;
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void OnDrawGizmosSelected()
