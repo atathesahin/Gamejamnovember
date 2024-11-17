@@ -1,7 +1,8 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.UI;
+
 public class Player : MonoBehaviour
 {
     [Header("Movement Settings")]
@@ -10,20 +11,30 @@ public class Player : MonoBehaviour
     public float lookSpeed = 2f;
 
     [Header("Weapon Settings")]
-    public TextMeshProUGUI ammoText; 
-    public TextMeshProUGUI interactText; 
+    public TextMeshProUGUI ammoText;
+    public TextMeshProUGUI interactText;
     public Transform weaponHolder;
+
+    [Header("UI Settings")]
+    public List<Image> weaponSlots; 
+    public Sprite emptySlotSprite; 
+
+    public List<GameObject> weaponInventory = new List<GameObject>();
+    public int currentWeaponIndex = -1;
 
     private Vector3 moveDirection;
     private float rotationX;
     private float rotationY;
-    private GameObject nearbyWeapon;
-    private GameObject currentWeapon;
+    public GameObject nearbyWeapon;
 
     void Start()
     {
         UpdateAmmoUI();
-        interactText.gameObject.SetActive(false); 
+        UpdateWeaponSlots(); 
+        if (interactText != null)
+        {
+            interactText.gameObject.SetActive(false); 
+        }
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -35,6 +46,7 @@ public class Player : MonoBehaviour
         FireWeapon();
         InteractWithWeapon();
         ReloadWeapon();
+        SwitchWeapon();
     }
 
     private void MoveCharacter()
@@ -55,9 +67,9 @@ public class Player : MonoBehaviour
 
     private void FireWeapon()
     {
-        if (Input.GetButtonDown("Fire1") && currentWeapon != null && currentWeapon.activeSelf)
+        if (Input.GetButtonDown("Fire1") && currentWeaponIndex != -1)
         {
-            Weapon weaponScript = currentWeapon.GetComponent<Weapon>();
+            Weapon weaponScript = weaponInventory[currentWeaponIndex].GetComponent<Weapon>();
             weaponScript?.Fire();
             UpdateAmmoUI();
         }
@@ -65,9 +77,9 @@ public class Player : MonoBehaviour
 
     private void ReloadWeapon()
     {
-        if (Input.GetKeyDown(KeyCode.R) && currentWeapon != null && currentWeapon.activeSelf)
+        if (Input.GetKeyDown(KeyCode.R) && currentWeaponIndex != -1)
         {
-            Weapon weaponScript = currentWeapon.GetComponent<Weapon>();
+            Weapon weaponScript = weaponInventory[currentWeaponIndex].GetComponent<Weapon>();
             weaponScript?.Reload();
             UpdateAmmoUI();
         }
@@ -75,15 +87,58 @@ public class Player : MonoBehaviour
 
     private void UpdateAmmoUI()
     {
-        if (currentWeapon != null)
+        if (currentWeaponIndex != -1)
         {
-            Weapon weaponScript = currentWeapon.GetComponent<Weapon>();
+            Weapon weaponScript = weaponInventory[currentWeaponIndex].GetComponent<Weapon>();
             if (weaponScript != null)
             {
                 ammoText.text = ": " + weaponScript.GetCurrentAmmo() + "/" + weaponScript.maxAmmo;
             }
         }
-        
+        else
+        {
+            ammoText.text = "No Weapon";
+        }
+    }
+
+    private void PickupWeapon(GameObject weapon)
+    {
+        GameObject newWeapon = Instantiate(weapon.GetComponent<WeaponPickup>().weaponPrefab, weaponHolder);
+        newWeapon.transform.localPosition = Vector3.zero;
+        newWeapon.transform.localRotation = Quaternion.identity;
+        newWeapon.transform.localScale = Vector3.one;
+
+        weaponInventory.Add(newWeapon);
+        currentWeaponIndex = weaponInventory.Count - 1;
+
+        Destroy(weapon.gameObject);
+        UpdateAmmoUI();
+        UpdateWeaponSlots(); 
+    }
+
+    private void UpdateWeaponSlots()
+    {
+        for (int i = 0; i < weaponSlots.Count; i++)
+        {
+            weaponSlots[i].sprite = emptySlotSprite; 
+            weaponSlots[i].rectTransform.localPosition = Vector3.zero; 
+        }
+
+
+        for (int i = 0; i < weaponInventory.Count && i < weaponSlots.Count; i++)
+        {
+            Weapon weaponScript = weaponInventory[i].GetComponent<Weapon>();
+            if (weaponScript != null)
+            {
+                weaponSlots[i].sprite = weaponScript.weaponIcon; 
+            }
+
+           
+            if (i == currentWeaponIndex)
+            {
+                weaponSlots[i].rectTransform.localPosition = new Vector3(0, 10, 0); 
+            }
+        }
     }
 
     private void InteractWithWeapon()
@@ -91,16 +146,16 @@ public class Player : MonoBehaviour
         if (nearbyWeapon != null)
         {
             interactText.gameObject.SetActive(true);
-            interactText.text = "E Basarak Silahı Al";
+            interactText.text = "Press E to pick up weapon";
             if (Input.GetKeyDown(KeyCode.E))
             {
                 PickupWeapon(nearbyWeapon);
-                interactText.gameObject.SetActive(false); 
+                interactText.gameObject.SetActive(false);
             }
         }
         else
         {
-            interactText.gameObject.SetActive(false); 
+            interactText.gameObject.SetActive(false);
         }
     }
 
@@ -120,18 +175,40 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void PickupWeapon(GameObject weapon)
+    private void SwitchWeapon()
     {
-        if (currentWeapon != null)
+        if (weaponInventory.Count > 0)
         {
-            Destroy(currentWeapon); 
+            if (Input.GetKeyDown(KeyCode.Alpha1) && weaponInventory.Count >= 1)
+            {
+                EquipWeapon(0);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2) && weaponInventory.Count >= 2)
+            {
+                EquipWeapon(1);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3) && weaponInventory.Count >= 3)
+            {
+                EquipWeapon(2);
+            }
+        }
+    }
+
+    private void EquipWeapon(int index)
+    {
+        if (currentWeaponIndex != -1)
+        {
+            weaponInventory[currentWeaponIndex].SetActive(false);
         }
 
-        currentWeapon = Instantiate(weapon.GetComponent<WeaponPickup>().weaponPrefab, weaponHolder); 
-        currentWeapon.transform.localPosition = Vector3.zero; 
-        currentWeapon.transform.localRotation = Quaternion.identity; 
-        currentWeapon.transform.localScale = Vector3.one; 
+        currentWeaponIndex = index;
+        weaponInventory[currentWeaponIndex].SetActive(true);
         UpdateAmmoUI();
+    }
+
+    public void SetNearbyWeapon(GameObject weapon)
+    {
+        nearbyWeapon = weapon;
     }
 }
 

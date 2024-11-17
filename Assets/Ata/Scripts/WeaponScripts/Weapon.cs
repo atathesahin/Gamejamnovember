@@ -13,12 +13,13 @@ public class Weapon : MonoBehaviour
     public AudioClip fireSound;
     public float recoilAmount = 1f;
     public float recoilRecoverySpeed = 5f;
-
+    
     private int currentAmmo;
     private bool isReloading = false;
     private AudioSource audioSource;
     private Vector3 originalPosition;
-
+    
+    public Sprite weaponIcon;
     void Start()
     {
         currentAmmo = maxAmmo;
@@ -86,6 +87,7 @@ public class Weapon : MonoBehaviour
             audioSource.PlayOneShot(fireSound);
         }
     }
+
     public int GetCurrentAmmo()
     {
         return currentAmmo;

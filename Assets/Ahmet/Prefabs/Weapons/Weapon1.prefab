@@ -143,6 +143,7 @@ MonoBehaviour:
   fireSound: {fileID: 0}
   recoilAmount: 1
   recoilRecoverySpeed: 5
+  weaponIcon: {fileID: 21300000, guid: fbdcdb9e7bbb38d4e8ad17e92b4c4f13, type: 3}
 --- !u!65 &1267806253216591916
 BoxCollider:
   m_ObjectHideFlags: 0
