@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 923099621697706995}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0366, y: 0, z: 0.0074}
+  m_LocalPosition: {x: 0.0366, y: 0, z: 0.0048}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -59,14 +59,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2242946406378650995}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.09058876, y: -0.09058876, z: 0.70128006, w: 0.70128006}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 1.09, y: 2.8, z: -24.38}
-  m_LocalScale: {x: 11, y: 23, z: 23}
+  m_LocalScale: {x: 12, y: 23, z: 23}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8622064577906048380}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -14.721, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!33 &8626081279644127000
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -136,14 +136,13 @@ MonoBehaviour:
   firePoint: {fileID: 8622064577906048380}
   bulletPrefab: {fileID: 2431952233959229079, guid: ec622fd2c87d6af4fbb0facc7216547f,
     type: 3}
-  fireForce: 45
-  damage: 10
-  maxAmmo: 10
-  reloadTime: 2
+  fireForce: 15
+  fireRate: 0.5
   fireSound: {fileID: 0}
   recoilAmount: 1
   recoilRecoverySpeed: 5
   weaponIcon: {fileID: 21300000, guid: fbdcdb9e7bbb38d4e8ad17e92b4c4f13, type: 3}
+  weaponName: Asa
 --- !u!65 &1267806253216591916
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -161,7 +160,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.1284301, y: 0.018531794, z: 0.007895661}
   m_Center: {x: -0.017163027, y: 0.00000042100567, z: -0.00000014728658}

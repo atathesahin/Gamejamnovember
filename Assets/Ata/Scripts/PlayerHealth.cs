@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
     public class PlayerHealth : MonoBehaviour
     {
         public int maxHealth = 100;
@@ -16,12 +17,14 @@
 
             if (currentHealth <= 0)
             {
-                Die();
+                RestartScene();
             }
         }
-
-        void Die()
+        private void RestartScene()
         {
-        
+    
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+
+        
     }

@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+
 public class Player : MonoBehaviour
 {
     [Header("Movement Settings")]
@@ -45,7 +46,6 @@ public class Player : MonoBehaviour
         LookAround();
         FireWeapon();
         InteractWithWeapon();
-        ReloadWeapon();
         SwitchWeapon();
     }
 
@@ -75,16 +75,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void ReloadWeapon()
-    {
-        if (Input.GetKeyDown(KeyCode.R) && currentWeaponIndex != -1)
-        {
-            Weapon weaponScript = weaponInventory[currentWeaponIndex].GetComponent<Weapon>();
-            weaponScript?.Reload();
-            UpdateAmmoUI();
-        }
-    }
-
     private void UpdateAmmoUI()
     {
         if (currentWeaponIndex != -1)
@@ -92,26 +82,39 @@ public class Player : MonoBehaviour
             Weapon weaponScript = weaponInventory[currentWeaponIndex].GetComponent<Weapon>();
             if (weaponScript != null)
             {
-                ammoText.text = ": " + weaponScript.GetCurrentAmmo() + "/" + weaponScript.maxAmmo;
+                ammoText.text = " " + weaponScript.weaponName;
             }
         }
         else
         {
-            ammoText.text = "No Weapon";
+            ammoText.text = "Silahı Bul";
         }
     }
 
     private void PickupWeapon(GameObject weapon)
     {
         GameObject newWeapon = Instantiate(weapon.GetComponent<WeaponPickup>().weaponPrefab, weaponHolder);
+
+        // Orijinal pozisyon, rotasyon ve ölçeği koru
         newWeapon.transform.localPosition = Vector3.zero;
-        newWeapon.transform.localRotation = Quaternion.identity;
-        newWeapon.transform.localScale = Vector3.one;
+        newWeapon.transform.localRotation = weapon.transform.localRotation;
+        newWeapon.transform.localScale = weapon.transform.localScale;
 
         weaponInventory.Add(newWeapon);
+
+ 
+        for (int i = 0; i < weaponInventory.Count; i++)
+        {
+            weaponInventory[i].SetActive(false);
+        }
+
+
         currentWeaponIndex = weaponInventory.Count - 1;
+        weaponInventory[currentWeaponIndex].SetActive(true);
+
 
         Destroy(weapon.gameObject);
+
         UpdateAmmoUI();
         UpdateWeaponSlots(); 
     }
@@ -146,7 +149,7 @@ public class Player : MonoBehaviour
         if (nearbyWeapon != null)
         {
             interactText.gameObject.SetActive(true);
-            interactText.text = "Press E to pick up weapon";
+            interactText.text = "Press E ";
             if (Input.GetKeyDown(KeyCode.E))
             {
                 PickupWeapon(nearbyWeapon);

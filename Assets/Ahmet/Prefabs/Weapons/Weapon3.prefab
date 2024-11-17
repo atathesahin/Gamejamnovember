@@ -24,13 +24,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1692766464341299738}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.02587, z: -0}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: -0.025870055, z: -0.00000004172325}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5724513279791414128}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: -90, z: 0}
 --- !u!1 &7484388180413671458
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,14 +59,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7484388180413671458}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7890412, y: 0, z: 0, w: 0.6143403}
+  m_LocalRotation: {x: -0.80901694, y: 0, z: 0, w: 0.58778536}
   m_LocalPosition: {x: -0.45786095, y: 0.5196289, z: -21.447771}
   m_LocalScale: {x: 25, y: 15, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3038052212031078600}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -104.192, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -108, y: 0, z: 0}
 --- !u!33 &123611365933035149
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -134,16 +134,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePoint: {fileID: 3038052212031078600}
-  bulletPrefab: {fileID: 2431952233959229079, guid: ec622fd2c87d6af4fbb0facc7216547f,
+  bulletPrefab: {fileID: 3904367219524890430, guid: a17d863f770b5d543984ce2221f1f849,
     type: 3}
-  fireForce: 45
-  damage: 10
-  maxAmmo: 10
-  reloadTime: 2
+  fireForce: 15
+  fireRate: 0.5
   fireSound: {fileID: 0}
   recoilAmount: 1
   recoilRecoverySpeed: 5
   weaponIcon: {fileID: 21300000, guid: 82560faad9f9ab6459682a69f3d530b7, type: 3}
+  weaponName: Tetris
 --- !u!65 &8282414902807096398
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -161,7 +160,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.020000001, y: 0.058824748, z: 0.027932}
   m_Center: {x: 0, y: 0.0070162043, z: 0.008466012}
